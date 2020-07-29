@@ -45,7 +45,7 @@ client.on('message', async message => {
 		if (typeof client.commands.get(command) !== 'undefined')
 			client.commands.get(command).execute(client, message, args);
 	} catch (error) {
-		// console.log(error);
+		console.log(error);
 		// message.channel.send(`There was an error trying to execute \`${process.env.PREFIX}${command}\``);
 	}
 });

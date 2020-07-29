@@ -1,5 +1,5 @@
-const Discord = require('discord.js');
-const Helper = require('helper.js');
+const MessageEmbed = require('discord.js').MessageEmbed;
+const Helper = require('helper/helper');
 
 module.exports = {
 	name: 'ping',
@@ -7,11 +7,9 @@ module.exports = {
 	async execute(client, message, args) {
 		msg = await message.channel.send('Pinging...');
 
-		msg.edit(new Discord.MessageEmbed()
+		msg.edit(new MessageEmbed()
 			.setTitle(':signal_strength: Ping')
 			.setDescription(
-				`**Latency** ${msg.createdAt - message.createdAt}ms
-				**API** ${client.ws.ping}ms
-				**Uptime**${Helper.msToTime(client.uptime).slice(0, -4)}`));
+				`**Latency** ${msg.createdAt - message.createdAt}ms\n**API** ${client.ws.ping}ms\n**Uptime**${Helper.msToTime(client.uptime).slice(0, -4)}`));
 	},
 };

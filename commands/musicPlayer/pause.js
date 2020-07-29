@@ -1,7 +1,3 @@
-const helper = require("helper");
-
-require('helper.js');
-
 module.exports = {
 	name: 'pause',
 	description: 'Pause player!',

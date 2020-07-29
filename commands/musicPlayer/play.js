@@ -1,4 +1,5 @@
-const ytdl = require('ytdl-core')
+const ytdl = require('ytdl-core');
+const axios = require('axios');
 
 module.exports = {
 	name: 'play',
@@ -7,7 +8,7 @@ module.exports = {
 		var server = servers[message.guild.id];
 
 		if (!args[0])
-			throw 'You need to include a link to play a song!';
+			return message.channel.send('You need to include a link to play a song!');
 
 		// join to vc and check if connected
 		await client.commands.get('join').execute(client, message, args);
@@ -19,8 +20,30 @@ module.exports = {
 			server.queue = new Array();
 
 		// add to queue
+
+		await console.log(axios({
+			method: 'get',
+			url: 'https://www.googleapis.com/youtube/v3/videos',
+			params: {
+				part: 'snippet',
+				id: videoId,
+				key: apiKey
+			}
+		})
+			.then(function (response) {
+				// handle success
+				return response.data.items[0].snippet.localized.title;
+			})
+			.catch(function (error) {
+				// handle error
+				console.log(error);
+			}));
+
 		server.queue.push(args[0]);
-		message.channel.send(`Added *${'song'}* to queue`);
+		// server.queue.push({
+		// 	name: 
+		// 	url: args[0]});
+		message.channel.send(`:musical_note: Added *${'song'}* to queue`);
 
 
 		if (!server.voiceStatus.playing) {
@@ -40,12 +63,12 @@ function play(message) {
 
 	server.dispatcher.on('start', () => {
 		server.voiceStatus.playing = true;
-		message.channel.send(`Now playing: *${'song'}*`);
+		message.channel.send(`:musical_note: Now playing: *${'song'}*`);
 	});
 
 	server.dispatcher.on('finish', () => {
+		server.queue.shift();
 		if (server.queue[0]) {
-			server.queue.shift();
 			play(message);
 		} else {
 			server.voiceStatus.playing = false;
