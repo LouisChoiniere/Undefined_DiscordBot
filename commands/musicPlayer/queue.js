@@ -1,5 +1,6 @@
 module.exports = {
 	name: 'queue',
+	aliases: ['q'],
 	description: 'Look a the queue!',
 	execute(client, message, args) {
 		var server = servers[message.guild.id];
@@ -10,12 +11,12 @@ module.exports = {
 			message.channel.send('Queue is empty!');
 		else {
 
-			var nowPlaying = `${server.queue[0]}`;
+			var nowPlaying = `${server.queue[0].name}`;
 
 			var upNext = ``;
 			if(server.queue.length > 1) {
 				for (var index = 1; index < server.queue.length; index++) {
-					upNext += `[${index}] ${server.queue[index]}\n`;
+					upNext += `[${index}] ${server.queue[index].name}\n`;
 				}
 			} else {
 				upNext = `No songs in the queue!`;

@@ -1,8 +1,12 @@
+require('dotenv').config();
 const ytdl = require('ytdl-core');
+const ytlist = require('youtube-playlist');
 const axios = require('axios');
+const { exit } = require('process');
 
 module.exports = {
 	name: 'play',
+	args: ['videoURL'],
 	description: 'Play youtube video!',
 	async execute(client, message, args) {
 		var server = servers[message.guild.id];
@@ -20,30 +24,26 @@ module.exports = {
 			server.queue = new Array();
 
 		// add to queue
-
-		await console.log(axios({
-			method: 'get',
-			url: 'https://www.googleapis.com/youtube/v3/videos',
-			params: {
-				part: 'snippet',
-				id: videoId,
-				key: apiKey
-			}
-		})
-			.then(function (response) {
-				// handle success
-				return response.data.items[0].snippet.localized.title;
-			})
-			.catch(function (error) {
-				// handle error
-				console.log(error);
-			}));
-
-		server.queue.push(args[0]);
-		// server.queue.push({
-		// 	name: 
-		// 	url: args[0]});
-		message.channel.send(`:musical_note: Added *${'song'}* to queue`);
+		server.queue.push({
+			name: await
+				ytlist(url, 'name').then(res => {
+					console.log(res.data);
+					return res.data;
+				})
+			// axios({
+			// 	method: 'get',
+			// 	url: 'https://www.googleapis.com/youtube/v3/videos',
+			// 	params: {
+			// 		part: 'snippet',
+			// 		id: args[0].match(/(?:youtube(?:-nocookie)?\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/)[1],
+			// 		key: process.env.googleApiKey
+			// 	}
+			// }).then(function (response) {
+			// 	return response.data.items[0].snippet.localized.title;
+			// }),
+			// url: args[0]
+		});
+		message.channel.send(`:musical_note: Added song to queue`);
 
 
 		if (!server.voiceStatus.playing) {
@@ -56,14 +56,14 @@ function play(message) {
 	var server = servers[message.guild.id];
 
 	try {
-		server.dispatcher = server.connection.play(ytdl(server.queue[0], { filter: "audioonly" }));
+		server.dispatcher = server.connection.play(ytdl(server.queue[0].url, { filter: "audioonly" }));
 	} catch {
 		message.channel.send(`An error occured while trying to play this song!`);
 	}
 
 	server.dispatcher.on('start', () => {
 		server.voiceStatus.playing = true;
-		message.channel.send(`:musical_note: Now playing: *${'song'}*`);
+		message.channel.send(`:musical_note: Now playing: *${server.queue[0].name}*`);
 	});
 
 	server.dispatcher.on('finish', () => {

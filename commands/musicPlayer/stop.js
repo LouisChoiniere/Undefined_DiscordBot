@@ -1,6 +1,6 @@
 module.exports = {
-	name: 'skip',
-	description: 'Skip song!',
+	name: 'stop',
+	description: 'Stop music player!',
 	execute(client, message, args) {
 		var server = servers[message.guild.id];
 
@@ -9,7 +9,13 @@ module.exports = {
 		if (!server.voiceStatus.playing)
 			return message.channel.send('Noting is playing!');
 
-		server.dispatcher.end();
-		message.channel.send(':track_next: Skipped song!')
+		server.voiceStatus.playing = false;
+
+		server.dispatcher.destroy();
+		message.channel.send(':stop_button: Stoped playback and emptied queue!');
+
+		// check and empty queue
+		if (server.queue)
+			server.queue.splice(0, server.queue.length)
 	},
 };
