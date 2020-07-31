@@ -1,7 +1,7 @@
 module.exports = {
 	name: 'join',
 	description: 'Join bot to voice channel!',
-	async execute(client, message, args) {
+	async execute(message, args) {
 		var server = servers[message.guild.id];
 
 		if (!message.member.voice.channel)

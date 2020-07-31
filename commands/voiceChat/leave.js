@@ -1,18 +1,17 @@
 module.exports = {
-	name: 'stop',
-	description: 'Stop music player!',
-	execute(client, message, args) {
+	name: 'leave',
+	description: 'Leave voice chanel!',
+	execute(message, args) {
 		var server = servers[message.guild.id];
 
 		if (!server.voiceStatus.connected)
 			return message.channel.send('Not currently connected to the voice chat');
-		if (!server.voiceStatus.playing)
-			return message.channel.send('Noting is playing!');
 
+		server.voiceStatus.connected = false;
 		server.voiceStatus.playing = false;
 
-		server.dispatcher.destroy();
-		message.channel.send(':stop_button: Stoped playback and emptied queue!');
+		server.connection.disconnect();
+		message.channel.send('Bye :wave:');
 
 		// check and empty queue
 		if (server.queue)
