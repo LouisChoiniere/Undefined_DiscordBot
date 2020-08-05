@@ -16,7 +16,7 @@ module.exports = {
 			return message.channel.send('You need to include a link to play a song!');
 
 		// join to vc and check if connected
-		await client.commands.get('join').execute(client, message, args);
+		await message.client.commands.get('join').execute(message, args);
 		if (!server.voiceStatus.connected)
 			return;
 
