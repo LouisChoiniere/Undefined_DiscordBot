@@ -1,0 +1,30 @@
+{
+  "name": "undefined_discordbot",
+  "version": "1.0.0",
+  "description": "Discord bot",
+  "main": "index.js",
+  "dependencies": {
+    "app-root-path": "^3.0.0",
+    "axios": "^0.19.2",
+    "discord.js": "^12.2.0",
+    "dotenv": "^8.2.0",
+    "glob": "^7.1.6",
+    "opusscript": "^0.0.7",
+    "ytdl-core": "^3.1.3"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kexigew/Undefined_discordBot.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kexigew/Undefined_discordBot/issues"
+  },
+  "homepage": "https://github.com/kexigew/Undefined_discordBot#readme"
+}
