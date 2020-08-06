@@ -1,5 +1,6 @@
 module.exports = {
 	name: 'shuffle',
+	aliases: ['sh'],
 	description: 'Shuffle the queue!',
 	execute(message, args) {
 		var server = servers[message.guild.id];

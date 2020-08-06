@@ -1,19 +1,18 @@
 var appRoot = require('app-root-path');
 require('dotenv').config();
 const ytdl = require('ytdl-core');
-const queue = require('./queue');
 const youtube = require(appRoot + '/youtube.js')
 
 module.exports = {
 	name: 'play',
 	aliases: ['p'],
-	args: ['videoURL'],
+	args: ['video'],
 	description: 'Play youtube video!',
 	async execute(message, args) {
 		var server = servers[message.guild.id];
 
 		if (!args[0])
-			return message.channel.send('You need to include a link to play a song!');
+			return message.channel.send('You need to include a link or title to play a song!');
 
 		// join to vc and check if connected
 		await message.client.commands.get('join').execute(message, args);
@@ -25,7 +24,7 @@ module.exports = {
 			server.queue = new Array();
 
 		// add to queue
-		server.queue = server.queue.concat(await youtube(args[0], ['title', 'url']).then(res => {
+		server.queue = server.queue.concat(await youtube(args.join(' '), ['title', 'url']).then(res => {
 			message.channel.send(`:musical_note: Added ${res.length > 1 ? `${res.length} song` : 'song'} to queue`);
 			return res;
 		}));

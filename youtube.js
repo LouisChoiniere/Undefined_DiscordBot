@@ -9,6 +9,20 @@ module.exports = async (url, opt) => {
 		id = match[1];
 	else if (match = url.match(/youtu(?:be\.com\/(?:watch\?v=|embed\/)|\.be\/)([\w-]{11})/))
 		id = match[1];
+	else {
+		await axios({
+			method: 'get',
+			url: `https://customsearch.googleapis.com/customsearch/v1`,
+			params: {
+				cx: process.env.programmableSearchEngine,
+				q: url,
+				num: 1,
+				key: process.env.googleApiKey,
+			}
+		}).then(res => {
+			id = res.data.items[0].link.match(/youtu(?:be\.com\/(?:watch\?v=|embed\/)|\.be\/)([\w-]{11})/)[1];
+		});
+	}
 
 	var items = [];
 
