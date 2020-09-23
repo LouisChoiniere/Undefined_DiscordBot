@@ -7,7 +7,7 @@ module.exports = {
 	name: 'play',
 	aliases: ['p'],
 	args: ['video'],
-	description: 'Play youtube video!',
+	description: 'Play youtube video or playlist!',
 	async execute(message, args) {
 		var server = servers[message.guild.id];
 

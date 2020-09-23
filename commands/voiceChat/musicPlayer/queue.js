@@ -1,6 +1,6 @@
 module.exports = {
 	name: 'queue',
-	aliases: ['q'],
+	aliases: ['q', 'np'],
 	description: 'Look a the queue!',
 	execute(message, args) {
 		var server = servers[message.guild.id];

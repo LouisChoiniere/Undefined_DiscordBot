@@ -1,5 +1,6 @@
 module.exports = {
 	name: 'leave',
+	aliases: ['l'],
 	description: 'Leave voice chanel!',
 	execute(message, args) {
 		var server = servers[message.guild.id];
